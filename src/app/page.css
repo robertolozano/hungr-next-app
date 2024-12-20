@@ -1,0 +1,19 @@
+#navbar {
+  display: "flex";
+  flex-direction: "row";
+  height: "50px";
+  padding: "0px 5px";
+}
+
+#left_navbar {
+  display: "flex";
+  flex-direction: "row";
+  justify-content: "flex-start";
+  width: "50%";
+}
+
+.button {
+  color: "";
+  font-weight: 600;
+  font-size: "25px";
+}

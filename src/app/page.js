@@ -1,95 +1,123 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
+import React, { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
+import styles from "./page.module.css"; // Ensure this path is correct
+// import styles from "./page.css"; // Ensure this path is correct
+import screenSizeStore from "../stores/ScreenSizeStore";
+import { useRouter } from "next/navigation"; // Import useRouter hook
+import { observer } from "mobx-react-lite";
+import Navbar from "./navbar";
+
+const LandingPage = observer(() => {
+  const { isDesktop, isTablet, isMobile } = screenSizeStore;
+  const router = useRouter();
+  const handleButtonClick = () => {
+    router.push("/setup");
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "#f3f7fc",
+        color: "black",
+        fontFamily: "sans-serif",
+        height: "100%",
+      }}
+    >
+      <div id="main" style={{ width: "90%", alignSelf: "center" }}>
+        <div
+          id="hero_section"
+          style={{
+            padding: "10px 0px",
+            margin: "20px 0px 50px 0px",
+            display: "flex",
+            flexDirection: isDesktop ? "row" : "column",
+            alignItems: "center",
+          }}
+        >
+          <div
+            id="hero_content"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              width: isDesktop ? "50%" : "100%",
+            }}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
+            <h1 id="hero_text" style={{ textAlign: "center", margin: 10 }}>
+              For those times, when <span>“whatever”</span> isn’t an option.
+            </h1>
+
+            <Button
+              style={{
+                margin: 10,
+              }}
+              fullWidth={false}
+              variant="contained"
+              onClick={() => handleButtonClick()}
+            >
+              Let's Eat
+            </Button>
+          </div>
+          <div
+            id="hero_image"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              padding: "10px 0px",
+              width: isDesktop ? "50%" : "100%",
+            }}
+          >
+            <img
+              style={{ width: "60%" }}
+              id="hero_image"
+              src="/images/Online_shopping_PNG.png"
+              alt="Hero"
             />
-          </a>
+          </div>
+        </div>
+
+        <div
+          id="second_section"
+          style={{
+            margin: "20px 0px 40px 0px",
+            display: "flex",
+            flexDirection: isDesktop ? "row-reverse" : "column",
+            alignItems: "center",
+          }}
+        >
+          <div
+            id="second_section_text"
+            style={{
+              margin: "50px 0px 20px 0px",
+              width: isDesktop ? "50%" : "100%",
+            }}
+          >
+            <h1 style={{ textAlign: "center" }}>
+              Take out the pressure of deciding and get to eating!
+            </h1>
+          </div>
+          <div
+            id="second_section_image"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: isDesktop ? "50%" : "100%",
+            }}
+          >
+            <img
+              style={{ width: "60%" }}
+              src="/images/people_PNG.png"
+              alt="People"
+            />
+          </div>
         </div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   );
-}
+});
+
+export default LandingPage;

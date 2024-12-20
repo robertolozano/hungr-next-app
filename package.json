@@ -9,9 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^5.16.5",
+    "@mui/material": "^5.16.5",
+    "@react-spring/web": "^9.7.4",
+    "@types/styled-components": "^5.1.34",
+    "axios": "^1.7.2",
+    "express": "^4.21.0",
+    "firebase": "^10.12.2",
+    "http": "^0.0.1-security",
+    "mobx": "^6.13.0",
+    "mobx-react-lite": "^4.0.7",
+    "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.4"
+    "react-tinder-card": "^1.6.4",
+    "socket.io": "^4.8.0",
+    "socket.io-client": "^4.8.0",
+    "styled-components": "^6.1.11",
+    "swiper": "^11.1.4"
   },
   "devDependencies": {
     "eslint": "^8",
