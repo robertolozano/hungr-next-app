@@ -8,16 +8,20 @@ const ScreenSizer = observer(({ children }) => {
   const { setWidth } = screenSizeStore;
 
   useEffect(() => {
-    const updateWidth = () => {
-      setWidth(window.innerWidth);
-    };
+    if (typeof window !== "undefined") {
+      const updateWidth = () => {
+        setWidth(window.innerWidth);
+      };
 
-    window.addEventListener("resize", updateWidth);
-    updateWidth(); // Initial check
+      window.addEventListener("resize", updateWidth);
+      updateWidth(); // Initial check
+      window.addEventListener("resize", updateWidth);
+      updateWidth(); // Initial check
 
-    return () => {
-      window.removeEventListener("resize", updateWidth);
-    };
+      return () => {
+        window.removeEventListener("resize", updateWidth);
+      };
+    }
   }, [setWidth]);
 
   return (

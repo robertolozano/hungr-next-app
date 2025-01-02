@@ -1052,14 +1052,16 @@ class SelectionPageStore {
   constructor() {
     makeAutoObservable(this);
 
-    if (typeof window !== "undefined" && !this.socket) {
-      this.socket = io("http://localhost:3000");
-      this.setupSocketListeners();
-    }
+    if (typeof window !== "undefined") {
+      if (!this.socket) {
+        this.socket = io("http://localhost:3000");
+        this.setupSocketListeners();
+      }
 
-    if (typeof window) {
-      window.selectionPageStore = this;
-      window.toJS = toJS;
+      if (typeof window) {
+        window.selectionPageStore = this;
+        window.toJS = toJS;
+      }
     }
   }
 
