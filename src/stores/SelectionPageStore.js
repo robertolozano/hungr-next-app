@@ -1054,7 +1054,14 @@ class SelectionPageStore {
 
     if (typeof window !== "undefined") {
       if (!this.socket) {
-        this.socket = io("http://localhost:3000");
+        this.socket = io(
+          process.env.NODE_ENV === "production"
+            ? "https://hungr-next-app.onrender.com" // Render deployment URL
+            : "http://localhost:3000", // Local development URL
+          {
+            transports: ["websocket"],
+          }
+        );
         this.setupSocketListeners();
       }
 
