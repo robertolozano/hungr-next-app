@@ -14,8 +14,10 @@ app.prepare().then(() => {
     pingTimeout: 20000,
     pingInterval: 10000,
     cors: {
-      // origin: "http://localhost:3006",
-      origin: "*", // Set this to your client URL in production for security
+      origin:
+        process.env.NODE_ENV === "production"
+          ? "https://hungr-next-app.vercel.app" // Production front-end
+          : "http://localhost:3000", // Development front-end,
       methods: ["GET", "POST"],
     },
   });
@@ -172,9 +174,10 @@ app.prepare().then(() => {
   // Serve the Next.js application
   server.all("*", (req, res) => handle(req, res));
 
+  const PORT = process.env.PORT || 3000;
   // Start the server
-  httpServer.listen(3000, (err) => {
+  httpServer.listen(PORT, (err) => {
     if (err) throw err;
-    console.log("> Ready on http://localhost:3000");
+    console.log(`> Ready on http://localhost:${PORT}`);
   });
 });
