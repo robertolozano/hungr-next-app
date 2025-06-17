@@ -1444,6 +1444,8 @@ class SelectionPageStore {
 
         if (this.socket) {
           console.log("emitting startVoting here 1444");
+          console.trace("startVoting triggered 1444");
+
           this.socket.emit("startVoting", this.sessionId);
         }
 
