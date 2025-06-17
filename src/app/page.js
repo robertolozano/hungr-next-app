@@ -59,7 +59,7 @@ const LandingPage = observer(() => {
               variant="contained"
               onClick={() => handleButtonClick()}
             >
-              Let's Eat
+              Let&apos;s Eat
             </Button>
           </div>
           <div
