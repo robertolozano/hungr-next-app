@@ -1411,8 +1411,6 @@ class SelectionPageStore {
   }
 
   async startVoting() {
-    console.trace("🔥 startVoting() calledd");
-
     console.log("startVoting function called 1414");
     if (this.restaurants.length > 0) {
       // Sanitize selectedRestaurants data
@@ -1444,7 +1442,6 @@ class SelectionPageStore {
 
         if (this.socket) {
           console.log("emitting startVoting here 1444");
-          console.trace("startVoting triggered 1444");
 
           this.socket.emit("startVoting", this.sessionId);
         }

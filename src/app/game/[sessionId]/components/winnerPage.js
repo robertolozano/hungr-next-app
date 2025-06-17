@@ -3,10 +3,7 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import selectionPageStore from "../../../../stores/SelectionPageStore";
-import { Button, IconButton, TextField } from "@mui/material";
-import CardCarousel from "./cardCarousel";
-import SearchIcon from "@mui/icons-material/Search";
-import RestaurantTinderCard from "./tinderCard";
+
 import RestaurantCard from "./card";
 import styles from "./tinderCard.module.css";
 import TinderCard from "react-tinder-card";
