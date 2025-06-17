@@ -956,7 +956,7 @@ class SelectionPageStore {
         {
           height: 1024,
           html_attributions: [
-            '<a href="https://maps.google.com/maps/contrib/116968588477948079921">Papa Murphy&#39;s | Take &#39;N&#39; Bake Pizza</a>',
+            '<a href="https://maps.google.com/maps/contrib/116968588477948079921">Papa Murphys | Take Bake Pizza</a>',
           ],
           photo_reference:
             "AelY_CtremnP0tHosSWCf10udyn0xnb33n6TDcoywFHLmnhsiM-0tvMmSBGvAgvlbA1ExOpVhXLNDwgq01DK_AI5-rOuv34pw7FwvnO1EAp7QbD6peyCLkRwFZ3rNCsRwKhEF-CmNwUGm5OJdXhHz4BRBObG9YlQFmC6geNcxaCNteRaypw",
