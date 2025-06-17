@@ -1,13 +1,6 @@
 import { makeAutoObservable, toJS, runInAction } from "mobx";
 import axios from "axios";
-import {
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  increment,
-  onSnapshot,
-} from "firebase/firestore";
+import { doc, setDoc, updateDoc, increment } from "firebase/firestore";
 import { db } from "../config/firebase"; // Assuming you have a firebase.js file for Firebase config
 import { io } from "socket.io-client";
 
@@ -1145,7 +1138,8 @@ class SelectionPageStore {
 
       this.socket.on("startVoting", () => {
         runInAction(() => {
-          this.status = "voting"; // Update store status if needed
+          console.log("changing status to voting!");
+          this.status = "voting";
         });
       });
 
@@ -1450,6 +1444,7 @@ class SelectionPageStore {
         }
 
         runInAction(() => {
+          console.log("changing status to voting 2");
           this.status = "voting";
         });
       } catch (error) {

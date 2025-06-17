@@ -23,7 +23,7 @@ const SelectionPage = observer(() => {
   useEffect(() => {
     selectionPageStore.setRouter(router);
     selectionPageStore.joinSession(sessionId);
-    selectionPageStore.setStatus("waiting"); // or "waiting" or whatever default
+    selectionPageStore.setStatus("waiting");
 
     return () => {
       // selectionPageStore.cleanup();
