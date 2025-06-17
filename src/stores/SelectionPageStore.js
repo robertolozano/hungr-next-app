@@ -1411,7 +1411,7 @@ class SelectionPageStore {
   }
 
   async startVoting() {
-    console.trace("🔥 startVoting() called");
+    console.trace("🔥 startVoting() calledd");
 
     console.log("startVoting function called 1414");
     if (this.restaurants.length > 0) {
