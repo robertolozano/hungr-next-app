@@ -9,12 +9,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import RestaurantTinderCard from "./tinderCard";
 
 const SelectionPage = observer(() => {
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      selectionPageStore.searchRestaurants();
-    }
-  };
-
   return (
     <div
       style={{
@@ -37,7 +31,13 @@ const SelectionPage = observer(() => {
           width: "100%",
         }}
       >
-        <RestaurantTinderCard />
+        {selectionPageStore.winner ? (
+          selectionPageStore.winner
+        ) : selectionPageStore.doneVoting ? (
+          <h1>Waiting on other players...</h1>
+        ) : (
+          <RestaurantTinderCard />
+        )}
         {/* <CardCarousel restaurants={selectionPageStore.unselectedRestaurants} /> */}
       </div>
     </div>

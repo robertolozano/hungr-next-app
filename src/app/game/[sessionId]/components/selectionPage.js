@@ -92,12 +92,12 @@ const SelectionPage = observer(() => {
             style={{ margin: "0px 5px" }}
             sx={{
               height: "50px",
-              width: "50px",
+              width: "150px",
             }}
             color="success"
             disabled={selectionPageStore?.selectedRestaurants?.length === 0}
           >
-            Begin
+            Begin Voting
           </Button>
         </div>
       </div>

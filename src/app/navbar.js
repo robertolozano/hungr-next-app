@@ -73,12 +73,12 @@ const Navbar = observer(() => {
             fontSize: "25px",
           }}
           onClick={() => {
-            router.push("/game");
+            router.push("/");
           }}
         >
           Eat
         </Button>
-        <Button
+        {/*<Button
           style={{
             color: "black",
             fontWeight: 600,
@@ -88,8 +88,8 @@ const Navbar = observer(() => {
             router.push("/profile");
           }}
         >
-          Profile
-        </Button>
+          Profile{ FIXME: implement Profile functionality}
+        </Button> */}
       </div>
     </div>
   );

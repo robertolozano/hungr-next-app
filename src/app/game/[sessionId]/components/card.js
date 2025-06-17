@@ -16,7 +16,7 @@ import PaidIcon from "@mui/icons-material/Paid";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
-const RestaurantCard = observer(({ restaurant, index }) => {
+const RestaurantCard = observer(({ restaurant, index, noButtons }) => {
   return (
     <Card
       key={index}
@@ -107,31 +107,33 @@ const RestaurantCard = observer(({ restaurant, index }) => {
         </div>
       </CardContent>
 
-      <CardActions>
-        <div style={{ margin: 0 }}>
-          <Button
-            variant="contained"
-            onClick={() =>
-              selectionPageStore.handleSelectedRestaurants(restaurant)
-            }
-            color={
-              selectionPageStore.selectedRestaurants.find(
+      {noButtons ? null : (
+        <CardActions>
+          <div style={{ margin: 0 }}>
+            <Button
+              variant="contained"
+              onClick={() =>
+                selectionPageStore.handleSelectedRestaurants(restaurant)
+              }
+              color={
+                selectionPageStore.selectedRestaurants.find(
+                  (res) => res.place_id == restaurant.place_id
+                ) == undefined
+                  ? "success"
+                  : "error"
+              }
+            >
+              {selectionPageStore.selectedRestaurants.find(
                 (res) => res.place_id == restaurant.place_id
               ) == undefined
-                ? "success"
-                : "error"
-            }
-          >
-            {selectionPageStore.selectedRestaurants.find(
-              (res) => res.place_id == restaurant.place_id
-            ) == undefined
-              ? "Add"
-              : "Remove"}
-          </Button>
-        </div>
+                ? "Add"
+                : "Remove"}
+            </Button>
+          </div>
 
-        {/* <Button variant="contained">Reviews</Button>{" "} */}
-      </CardActions>
+          {/* <Button variant="contained">Reviews</Button>{" "} */}
+        </CardActions>
+      )}
     </Card>
   );
 });

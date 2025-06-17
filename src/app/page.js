@@ -2,12 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
-import styles from "./page.module.css"; // Ensure this path is correct
-// import styles from "./page.css"; // Ensure this path is correct
+import styles from "./page.module.css";
+// import styles from "./page.css";
 import screenSizeStore from "../stores/ScreenSizeStore";
-import { useRouter } from "next/navigation"; // Import useRouter hook
+import { useRouter } from "next/navigation";
 import { observer } from "mobx-react-lite";
-import Navbar from "./navbar";
 
 const LandingPage = observer(() => {
   const { isDesktop, isTablet, isMobile } = screenSizeStore;
@@ -21,10 +20,11 @@ const LandingPage = observer(() => {
       style={{
         display: "flex",
         flexDirection: "column",
+        justifyContent: "center",
+        height: "100%",
         backgroundColor: "#f3f7fc",
         color: "black",
         fontFamily: "sans-serif",
-        height: "100%",
       }}
     >
       <div id="main" style={{ width: "90%", alignSelf: "center" }}>
@@ -59,7 +59,7 @@ const LandingPage = observer(() => {
               variant="contained"
               onClick={() => handleButtonClick()}
             >
-              Let&apos;s Eat
+              Let's Eat
             </Button>
           </div>
           <div
@@ -68,7 +68,7 @@ const LandingPage = observer(() => {
               display: "flex",
               justifyContent: "center",
               padding: "10px 0px",
-              width: isDesktop ? "50%" : "100%",
+              width: isDesktop ? "50%" : isTablet ? "60%" : "80%",
             }}
           >
             <img
@@ -76,42 +76,6 @@ const LandingPage = observer(() => {
               id="hero_image"
               src="/images/Online_shopping_PNG.png"
               alt="Hero"
-            />
-          </div>
-        </div>
-
-        <div
-          id="second_section"
-          style={{
-            margin: "20px 0px 40px 0px",
-            display: "flex",
-            flexDirection: isDesktop ? "row-reverse" : "column",
-            alignItems: "center",
-          }}
-        >
-          <div
-            id="second_section_text"
-            style={{
-              margin: "50px 0px 20px 0px",
-              width: isDesktop ? "50%" : "100%",
-            }}
-          >
-            <h1 style={{ textAlign: "center" }}>
-              Take out the pressure of deciding and get to eating!
-            </h1>
-          </div>
-          <div
-            id="second_section_image"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              width: isDesktop ? "50%" : "100%",
-            }}
-          >
-            <img
-              style={{ width: "60%" }}
-              src="/images/people_PNG.png"
-              alt="People"
             />
           </div>
         </div>

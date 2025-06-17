@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import selectionPageStore from "../../stores/SelectionPageStore";
 import { Button, TextField } from "@mui/material";
@@ -8,6 +8,9 @@ import { useRouter } from "next/navigation";
 
 const SelectionPage = observer(() => {
   const router = useRouter();
+  useEffect(() => {
+    selectionPageStore.setStatus("idle"); // or "waiting" or whatever default
+  }, []);
 
   const [textFieldValue, setTextFieldValue] = useState("");
 
@@ -42,7 +45,8 @@ const SelectionPage = observer(() => {
           }
 
           selectionPageStore.startWaitingRoom();
-          router.push(`/waiting/${textFieldValue}`);
+          // router.push(`/waiting/${textFieldValue}`);
+          router.push(`/game/${textFieldValue}`);
         }}
         style={{ margin: "0px 5px", margin: 10 }}
         sx={{

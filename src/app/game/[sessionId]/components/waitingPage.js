@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import selectionPageStore from "../../../stores/SelectionPageStore";
+import selectionPageStore from "../../../../stores/SelectionPageStore";
 import { useParams } from "next/navigation";
 import { Button, Divider, TextField } from "@mui/material";
 import List from "@mui/material/List";

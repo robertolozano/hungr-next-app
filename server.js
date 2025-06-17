@@ -17,7 +17,7 @@ app.prepare().then(() => {
       origin:
         process.env.NODE_ENV === "production"
           ? "https://hungr-next-app.vercel.app" // Production front-end
-          : "http://localhost:3000", // Development front-end,
+          : "http://localhost:3000", // Development front-end
       methods: ["GET", "POST"],
     },
   });
@@ -42,7 +42,31 @@ app.prepare().then(() => {
       });
 
       if (readyUsers === totalUsers) {
-        io.in(sessionId).emit("startVoting");
+        // io.in(sessionId).emit("startSelection");
+      }
+    }
+  };
+
+  const broadcastIsEveryoneDone = (sessionId) => {
+    const session = sessions[sessionId];
+    if (session) {
+      const totalUsers = session.users.length;
+      const doneVotingUsers = session.users.filter(
+        (user) => user.doneVoting
+      ).length;
+      // io.in(sessionId).emit("readyStatusUpdate", {
+      //   readyUsers,
+      //   totalUsers,
+      // });
+
+      if (doneVotingUsers === totalUsers) {
+        // Determine restaurant with most votes
+        const winner = session.restaurants.reduce((top, current) => {
+          return current.votes > (top?.votes ?? -Infinity) ? current : top;
+        }, null);
+
+        console.log(`All users done voting. Winner:`, winner);
+        io.in(sessionId).emit("everyoneDoneVoting", winner);
       }
     }
   };
@@ -62,50 +86,64 @@ app.prepare().then(() => {
 
   // Set up WebSocket event handlers
   io.on("connection", (socket) => {
-    console.log("New user connected:", socket.id);
+    console.log("New user connected, socket id=", socket.id);
 
+    // Happens each time a user joins session id
     socket.on("joinSession", (sessionId) => {
       socket.join(sessionId);
 
+      // If session id previously exists make object for it
       if (!sessions[sessionId]) {
-        sessions[sessionId] = { users: [] };
+        sessions[sessionId] = {
+          users: [],
+          restaurants: [],
+        };
       }
 
+      // Add joining user to session id object
       sessions[sessionId].users.push({
         id: socket.id,
         username: null,
         ready: false,
+        doneVoting: false,
       });
 
-      console.log(`User ${socket.id} joined session ${sessionId}`);
-      socket.emit("updateRestaurants", sessions[sessionId].restaurants);
+      console.log(`User ${socket.id} joined session ${sessionId}`, sessions);
+      socket.emit("updateSelectedRestaurants", sessions[sessionId].restaurants);
       broadcastUserCount(sessionId);
-      broadcastUserList(sessionId); // Update all users
+      broadcastUserList(sessionId);
       broadcastReadiness(sessionId);
     });
 
     socket.on("setUsername", ({ sessionId, username }) => {
+      // Find session
       const session = sessions[sessionId];
       if (session) {
+        // Find socket user
         const user = session.users.find((user) => user.id === socket.id);
+
+        // Change username and broadcast
         if (user) {
           user.username = username;
           console.log(
             `User ${socket.id} set username to ${username} in session ${sessionId}`
           );
-          broadcastUserList(sessionId); // Update all users
+          broadcastUserList(sessionId);
         }
       }
     });
 
     // Add restaurant
     socket.on("addRestaurant", ({ sessionId, restaurant }) => {
+      console.log("received addRestaurant message", sessions, sessionId);
       if (sessions[sessionId]) {
-        sessions[sessionId].restaurants.push(restaurant);
+        console.log("received addRestaurant message and session exists");
+
+        sessions[sessionId].restaurants.push({ ...restaurant, votes: 0 });
         console.log(`Restaurant added to session ${sessionId}:`, restaurant);
 
         io.in(sessionId).emit(
-          "updateRestaurants",
+          "updateSelectedRestaurants",
           sessions[sessionId].restaurants
         );
       }
@@ -125,7 +163,7 @@ app.prepare().then(() => {
         );
 
         io.in(sessionId).emit(
-          "updateRestaurants",
+          "updateSelectedRestaurants",
           sessions[sessionId].restaurants
         );
       }
@@ -136,21 +174,66 @@ app.prepare().then(() => {
       io.in(sessionId).emit("startSelection"); // Notify all users in the session
     });
 
+    socket.on("startVoting", (sessionId) => {
+      console.log(`User ${socket.id} started voting in session ${sessionId}`);
+      io.in(sessionId).emit("startVoting"); // Notify all users in the session
+    });
+
     socket.on("markReady", (sessionId) => {
       const session = sessions[sessionId];
+
+      // Check if session exists
       if (session) {
+        // Find socket user who marked ready
         const user = session.users.find((user) => user.id === socket.id);
+
+        // Mark user ready and broadcast to others
         if (user) {
           user.ready = !user.ready;
           console.log(`User ${socket.id} is ready in session ${sessionId}`);
           broadcastReadiness(sessionId);
-          broadcastUserList(sessionId); // Notify all users
+          broadcastUserList(sessionId);
+        }
+      }
+    });
+
+    socket.on("markDoneVoting", (sessionId) => {
+      const session = sessions[sessionId];
+
+      // Check if session exists
+      if (session) {
+        // Find socket user who marked ready
+        const user = session.users.find((user) => user.id === socket.id);
+
+        // Mark user ready and broadcast to others
+        if (user) {
+          user.doneVoting = true;
+          console.log(
+            `User ${socket.id} is doneVoting in session ${sessionId}`
+          );
+          broadcastIsEveryoneDone(sessionId);
         }
       }
     });
 
     socket.on("vote", ({ sessionId, restaurantId, voteChange }) => {
       io.in(sessionId).emit("voteUpdate", { restaurantId, voteChange });
+
+      const session = sessions[sessionId];
+      if (!session) return;
+
+      const restaurant = session.restaurants.find(
+        (r) => r.place_id === restaurantId
+      );
+      if (restaurant) {
+        restaurant.votes += voteChange; // +1 for like, -1 if you support that feature
+      }
+
+      io.in(sessionId).emit("voteUpdate", {
+        restaurantId,
+        voteChange,
+        // currentVotes: restaurant.votes,
+      });
     });
 
     socket.on("disconnect", () => {

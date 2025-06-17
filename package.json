@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_ENV=development node server.js",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "@emotion/react": "^11.13.0",
@@ -33,5 +32,8 @@
   "devDependencies": {
     "eslint": "^8",
     "eslint-config-next": "14.2.4"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }

@@ -1030,6 +1030,8 @@ class SelectionPageStore {
     },
   ];
 
+  voteIndex = 0;
+
   selectedRestaurants = [];
 
   status = "idle";
@@ -1048,6 +1050,8 @@ class SelectionPageStore {
   username = "";
   sessionId = null;
   userList = [];
+
+  router = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -1072,6 +1076,10 @@ class SelectionPageStore {
     }
   }
 
+  get selectionRoute() {
+    return `/game/${this.sessionId}`;
+  }
+
   get gameRef() {
     if (!this.sessionId) {
       return null;
@@ -1084,6 +1092,22 @@ class SelectionPageStore {
     return this.userList.filter((user) => !user.ready);
   }
 
+  updateVoteIndex = () => {
+    this.voteIndex += 1;
+
+    if (this.doneVoting) {
+      this.socket.emit("markDoneVoting", this.sessionId);
+    }
+  };
+
+  setStatus = (status) => {
+    this.status = status;
+  };
+
+  setRouter = (routerObject) => {
+    this.router = routerObject;
+  };
+
   setupSocketListeners() {
     if (this.socket) {
       this.removeSocketListeners();
@@ -1095,18 +1119,34 @@ class SelectionPageStore {
         });
       });
 
-      this.socket.on("updateRestaurants", (restaurants) => {
+      this.socket.on("updateSelectedRestaurants", (restaurants) => {
         runInAction(() => {
-          this.restaurants = restaurants;
+          console.log(
+            "running updateSelectedRestaurants!!!!!!!!!",
+            restaurants
+          );
+          this.setSelectedRestaurants(restaurants);
         });
       });
 
       this.socket.on("startSelection", () => {
-        console.log("Selection Started");
         runInAction(() => {
           this.status = "selection"; // Update store status if needed
         });
-        window.location.href = `/game/${this.sessionId}`; // Navigate to the selection page
+        this.routerPush(this.selectionRoute);
+      });
+
+      this.socket.on("everyoneDoneVoting", (winner) => {
+        runInAction(() => {
+          this.status = "done"; // Update store status if needed
+          this.winner = winner;
+        });
+      });
+
+      this.socket.on("startVoting", () => {
+        runInAction(() => {
+          this.status = "voting"; // Update store status if needed
+        });
       });
 
       this.socket.on("updateUserList", (userList) => {
@@ -1185,12 +1225,25 @@ class SelectionPageStore {
     this.location = location;
   }
 
+  setSelectedRestaurants = (restaurants) => {
+    this.selectedRestaurants = restaurants;
+  };
+
   setRestaurants = (restaurants) => {
     this.restaurants = restaurants;
   };
 
+  routerPush(route) {
+    console.log("SessionId:", this.sessionId);
+    if (this.sessionId) {
+      this.router.push(route);
+    }
+  }
+
   addRestaurant(restaurant) {
     if (this.socket) {
+      console.log("emitting from client addRestaurant", restaurant);
+
       this.socket.emit("addRestaurant", {
         sessionId: this.sessionId,
         restaurant,
@@ -1200,6 +1253,8 @@ class SelectionPageStore {
 
   removeRestaurant(restaurantId) {
     if (this.socket) {
+      console.log("emitting from client removeRestaurant", restaurantId);
+
       this.socket.emit("removeRestaurant", {
         sessionId: this.sessionId,
         restaurantId,
@@ -1215,6 +1270,16 @@ class SelectionPageStore {
     if (index == -1) {
       const { name, price_level, photos, rating, place_id, formatted_address } =
         restaurant;
+
+      console.log({
+        name,
+        price_level,
+        photos,
+        rating,
+        place_id,
+        formatted_address,
+        votes: 0,
+      });
 
       this.addRestaurant({
         name,
@@ -1253,23 +1318,56 @@ class SelectionPageStore {
     this.previousSearchTerm = this.searchTerm;
 
     const cacheKey = `${this.searchTerm}-${this.location}`;
+    // If previously searched, just fetch from cache
     if (this.cache[cacheKey]) {
       console.log("Fetching from cache");
-      this.restaurants = this.cache[cacheKey];
+      this.setRestaurants(this.cache[cacheKey]);
     } else {
+      // If not searched, then query from API
       try {
         console.log("Not in cache, fetching from google");
         const response = await axios.post("/api/search", {
           term: this.searchTerm,
           location: this.location,
         });
-        restaurantData = response.data.results.map((restaurant) => {
-          const {} = restaurant;
+        console.log("RESPONSE:", response);
+        let restaurantData = response.data.results.map((restaurant) => {
+          const {
+            business_status,
+            formatted_address,
+            geometry,
+            icon_background_color,
+            name,
+            opening_hours,
+            photos,
+            place_id,
+            plus_code,
+            price_level,
+            rating,
+            reference,
+            types,
+            user_ratings_total,
+          } = restaurant;
 
-          return {};
+          return {
+            business_status,
+            formatted_address,
+            geometry,
+            icon_background_color,
+            name,
+            opening_hours,
+            photos,
+            place_id,
+            plus_code,
+            price_level,
+            rating,
+            reference,
+            types,
+            user_ratings_total,
+          };
         });
-        this.restaurants = response.data.results;
-        this.cache[cacheKey] = response.data.results; // Store results in cache
+        this.setRestaurants(restaurantData);
+        this.cache[cacheKey] = restaurantData; // Store results in cache
 
         console.log(toJS(this.restaurants));
       } catch (error) {
@@ -1290,6 +1388,7 @@ class SelectionPageStore {
         status: "waiting", // Indicates the game is waiting for restaurants to be added
         restaurants: {}, // Empty array initially
       });
+      this.setStatus("waiting");
     } catch (error) {
       console.error("Error moving to waiting stage:", error);
       runInAction(() => {
@@ -1301,12 +1400,13 @@ class SelectionPageStore {
   async startSelection() {
     try {
       await setDoc(this.gameRef, {
-        status: "selection", // Indicates the game is waiting for restaurants to be added
-        restaurants: {}, // Empty array initially
+        status: "selection",
+        restaurants: {},
       });
 
       if (this.socket) {
         this.socket.emit("startSelection", this.sessionId);
+        this.routerPush(this.selectionRoute);
       }
     } catch (error) {
       console.error("Error moving to selection stage:", error);
@@ -1333,6 +1433,7 @@ class SelectionPageStore {
         }
       );
 
+      // Transform restaurant array into restaurant objects.
       const restaurantsObj = sanitizedRestaurants.reduce((acc, restaurant) => {
         acc[restaurant.place_id] = restaurant;
         return acc;
@@ -1340,12 +1441,16 @@ class SelectionPageStore {
 
       try {
         await setDoc(this.gameRef, {
-          status: "started",
+          status: "voting",
           restaurants: restaurantsObj,
         });
 
+        if (this.socket) {
+          this.socket.emit("startVoting", this.sessionId);
+        }
+
         runInAction(() => {
-          this.status = "started";
+          this.status = "voting";
         });
       } catch (error) {
         console.error("Error starting game:", error);
@@ -1366,6 +1471,10 @@ class SelectionPageStore {
             selectedRestaurant.place_id === restaurant.place_id
         )
     );
+  }
+
+  get doneVoting() {
+    return this.selectedRestaurants.length == this.voteIndex;
   }
 
   createId() {

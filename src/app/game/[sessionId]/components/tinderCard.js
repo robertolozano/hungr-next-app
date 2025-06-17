@@ -22,36 +22,26 @@ const RestaurantTinderCard = () => {
   );
 
   const swiped = (direction, restaurantId) => {
+    const restaurant = selectionPageStore.selectedRestaurants[currentIndex];
+
     if (direction === "right") {
-      console.log("swiped right", restaurantId);
+      console.log("swiped right", restaurantId, restaurant.name);
       selectionPageStore.updateVotes(restaurantId, 1); // Increase votes
     } else {
-      console.log("swiped left", restaurantId);
-      selectionPageStore.updateVotes(restaurantId, -1); // Increase votes
+      console.log("swiped left", restaurantId, restaurant.name);
+      selectionPageStore.updateVotes(restaurantId, 0); // No vote
     }
     setCurrentIndex((prev) => prev - 1);
+
+    selectionPageStore.updateVoteIndex();
   };
 
   const outOfFrame = (restaurantId) => {};
 
-  const swipe = async (dir) => {
-    const canSwipe = true;
+  const handleClick = async (direction) => {
+    if (currentIndex < 0) return;
 
-    if (canSwipe && currentIndex >= 0) {
-      await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
-    }
-  };
-
-  const handleClick = (direction) => {
-    const restaurant = selectionPageStore.selectedRestaurants[currentIndex];
-
-    if (direction === "right") {
-      console.log("swiped right", restaurant.name);
-      swipe(direction);
-    } else {
-      console.log("swiped left", restaurant.name);
-      swipe(direction);
-    }
+    await childRefs[currentIndex].current.swipe(direction); // Swipe the card!
   };
 
   return (
