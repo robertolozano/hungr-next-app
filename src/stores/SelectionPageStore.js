@@ -1411,6 +1411,8 @@ class SelectionPageStore {
   }
 
   async startVoting() {
+    console.trace("🔥 startVoting() called");
+
     console.log("startVoting function called 1414");
     if (this.restaurants.length > 0) {
       // Sanitize selectedRestaurants data

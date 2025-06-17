@@ -161,12 +161,9 @@ app.prepare().then(() => {
     socket.on("markReady", (sessionId) => {
       const session = sessions[sessionId];
 
-      // Check if session exists
       if (session) {
-        // Find socket user who marked ready
         const user = session.users.find((user) => user.id === socket.id);
 
-        // Mark user ready and broadcast to others
         if (user) {
           user.ready = !user.ready;
           console.log(`User ${socket.id} is ready in session ${sessionId}`);
