@@ -88,7 +88,9 @@ const SelectionPage = observer(() => {
         >
           <Button
             variant="contained"
-            onClick={() => selectionPageStore.startVoting()}
+            onClick={() => {
+              selectionPageStore.startVoting();
+            }}
             style={{ margin: "0px 5px" }}
             sx={{
               height: "50px",

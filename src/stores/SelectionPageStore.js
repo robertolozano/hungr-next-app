@@ -1138,7 +1138,7 @@ class SelectionPageStore {
 
       this.socket.on("startVoting", () => {
         runInAction(() => {
-          console.log("changing status to voting!");
+          console.log("changing status to voting! 1141");
           this.status = "voting";
         });
       });
@@ -1411,6 +1411,7 @@ class SelectionPageStore {
   }
 
   async startVoting() {
+    console.log("startVoting function called 1414");
     if (this.restaurants.length > 0) {
       // Sanitize selectedRestaurants data
       const sanitizedRestaurants = this.selectedRestaurants.map(
@@ -1440,6 +1441,7 @@ class SelectionPageStore {
         });
 
         if (this.socket) {
+          console.log("emitting startVoting here 1444");
           this.socket.emit("startVoting", this.sessionId);
         }
 
