@@ -1,16 +1,14 @@
 "use client";
 export const dynamic = "force-dynamic";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Button from "@mui/material/Button";
-import styles from "./page.module.css";
-// import styles from "./page.css";
 import screenSizeStore from "../stores/ScreenSizeStore";
 import { useRouter } from "next/navigation";
 import { observer } from "mobx-react-lite";
 
 const LandingPage = observer(() => {
-  const { isDesktop, isTablet, isMobile } = screenSizeStore;
+  const { isDesktop, isTablet } = screenSizeStore;
   const router = useRouter();
   const handleButtonClick = () => {
     router.push("/setup");

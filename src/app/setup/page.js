@@ -47,7 +47,6 @@ const SelectionPage = observer(() => {
           }
 
           selectionPageStore.startWaitingRoom();
-          // router.push(`/waiting/${textFieldValue}`);
           router.push(`/game/${textFieldValue}`);
         }}
         style={{ margin: "0px 5px", margin: 10 }}

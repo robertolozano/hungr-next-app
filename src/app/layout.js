@@ -12,21 +12,25 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ScreenSizer>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          backgroundColor: "#f3f7fc",
-          color: "black",
-          fontFamily: "sans-serif",
-          height: "100vh",
-          overflow: "hidden",
-        }}
-      >
-        <Navbar />
-        {children}
-      </div>
-    </ScreenSizer>
+    <html lang="en">
+      <body>
+        <ScreenSizer>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              backgroundColor: "#f3f7fc",
+              color: "black",
+              fontFamily: "sans-serif",
+              height: "100vh",
+              overflow: "hidden",
+            }}
+          >
+            <Navbar />
+            {children}
+          </div>
+        </ScreenSizer>
+      </body>
+    </html>
   );
 }
