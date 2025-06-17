@@ -31,22 +31,6 @@ app.prepare().then(() => {
     io.in(sessionId).emit("userCountUpdate", { numUsers });
   };
 
-  const broadcastReadiness = (sessionId) => {
-    const session = sessions[sessionId];
-    if (session) {
-      const totalUsers = session.users.length;
-      const readyUsers = session.users.filter((user) => user.ready).length;
-      io.in(sessionId).emit("readyStatusUpdate", {
-        readyUsers,
-        totalUsers,
-      });
-
-      if (readyUsers === totalUsers) {
-        // io.in(sessionId).emit("startSelection");
-      }
-    }
-  };
-
   const broadcastIsEveryoneDone = (sessionId) => {
     const session = sessions[sessionId];
     if (session) {
@@ -54,10 +38,6 @@ app.prepare().then(() => {
       const doneVotingUsers = session.users.filter(
         (user) => user.doneVoting
       ).length;
-      // io.in(sessionId).emit("readyStatusUpdate", {
-      //   readyUsers,
-      //   totalUsers,
-      // });
 
       if (doneVotingUsers === totalUsers) {
         // Determine restaurant with most votes
@@ -112,7 +92,6 @@ app.prepare().then(() => {
       socket.emit("updateSelectedRestaurants", sessions[sessionId].restaurants);
       broadcastUserCount(sessionId);
       broadcastUserList(sessionId);
-      broadcastReadiness(sessionId);
     });
 
     socket.on("setUsername", ({ sessionId, username }) => {
@@ -191,7 +170,6 @@ app.prepare().then(() => {
         if (user) {
           user.ready = !user.ready;
           console.log(`User ${socket.id} is ready in session ${sessionId}`);
-          broadcastReadiness(sessionId);
           broadcastUserList(sessionId);
         }
       }
@@ -248,7 +226,6 @@ app.prepare().then(() => {
         } else {
           broadcastUserCount(sessionId);
           broadcastUserList(sessionId);
-          broadcastReadiness(sessionId);
         }
       });
     });
