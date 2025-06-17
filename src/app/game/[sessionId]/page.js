@@ -1,7 +1,5 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-
 import React, { useEffect } from "react";
 
 import { observer } from "mobx-react-lite";
@@ -23,11 +21,11 @@ const GamePage = observer(() => {
 
   const { status } = selectionPageStore;
 
-  if (status == "done") return <WinnerPage />;
-
   if (status == "selection") return <SelectionPage />;
 
   if (status == "voting") return <VotePage />;
+
+  if (status == "done") return <WinnerPage />;
 
   return <WaitingPage />;
 });

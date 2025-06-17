@@ -1,7 +1,5 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import selectionPageStore from "../../../stores/SelectionPageStore";
