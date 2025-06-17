@@ -24,11 +24,7 @@ const ScreenSizer = observer(({ children }) => {
     }
   }, [setWidth]);
 
-  return (
-    <html lang="en" style={{ height: "100vh" }}>
-      <body style={{ height: "100vh" }}>{children} </body>
-    </html>
-  );
+  return <>{children} </>;
 });
 
 export default ScreenSizer;
