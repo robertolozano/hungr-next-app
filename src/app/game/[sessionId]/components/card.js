@@ -15,33 +15,37 @@ import StarIcon from "@mui/icons-material/Star";
 import PaidIcon from "@mui/icons-material/Paid";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import screenSizeStore from "../../../../stores/ScreenSizeStore";
 
 const RestaurantCard = observer(({ restaurant, index, noButtons }) => {
+  const { isTablet, isMobile } = screenSizeStore;
+
   return (
     <Card
       key={index}
       style={{
         width: "100%",
         height: "100%",
-        minHeight: "410px",
+        minHeight: noButtons ? "300px" : "425px",
         margin: "0px 0px 20px 0px",
         borderRadius: "20px",
         border: "2px solid black",
       }}
     >
-      <CardHeader
-        title={restaurant?.name}
-        // subheader={<StarIcon />}
-      ></CardHeader>
+      <p style={{ fontSize: isMobile ? 15 : 20, padding: 15 }}>
+        {isMobile ? restaurant?.name?.slice(0, 32) : restaurant.name}
+        {isMobile && restaurant?.name?.length > 32 && "..."}
+      </p>
+      {/* <CardHeader title={restaurant?.name}></CardHeader> */}
       <CardMedia
         component="img"
         height="170"
         // image={
-        //   "https://www.foodiesfeed.com/wp-content/uploads/2023/06/burger-with-melted-cheese.jpg"
+        //   "https://cdn.glitch.com/aa77cb65-0ae2-4388-9521-dc70cf3b8f55%2Flogo-removebg-preview%20(1).png?v=1590852320072"
         // }
-        //   image={selectionPageStore.getPhotoUrl(
-        //     restaurant.photos[0].photo_reference
-        //   )}
+        // image={selectionPageStore.getPhotoUrl(
+        //   restaurant.photos[0].photo_reference
+        // )}
         // alt="Paella dish"
         style={{
           pointerEvents: "none",
@@ -79,7 +83,12 @@ const RestaurantCard = observer(({ restaurant, index, noButtons }) => {
           >
             {restaurant?.rating !== undefined &&
               Array.from({ length: Math.trunc(restaurant?.rating) }).map(
-                (x, index) => <StarIcon key={index} />
+                (x, index) => (
+                  <StarIcon
+                    style={{ fontSize: isMobile ? "20px" : "30px" }}
+                    key={index}
+                  />
+                )
               )}
             {restaurant?.rating !== undefined &&
               restaurant?.rating % 1 != 0 && <StarHalfIcon />}
@@ -100,7 +109,17 @@ const RestaurantCard = observer(({ restaurant, index, noButtons }) => {
             </p>
           </div>
 
-          <p style={{ padding: "10px 0px 0px 0px" }}>
+          <p
+            style={{
+              wordWrap: "break-word",
+              maxWidth: "100%",
+              padding: "5px 0px 0px 0px",
+              overflowWrap: "break-word",
+              width: "45%",
+              height: "42px",
+              overflow: "hidden",
+            }}
+          >
             {restaurant?.formatted_address?.slice(0, 50)}
             {restaurant?.formatted_address?.length > 50 && "..."}
           </p>
@@ -108,8 +127,13 @@ const RestaurantCard = observer(({ restaurant, index, noButtons }) => {
       </CardContent>
 
       {noButtons ? null : (
-        <CardActions>
-          <div style={{ margin: 0 }}>
+        <CardActions style={{ alignSelf: "flex-end" }}>
+          <div
+            style={{
+              margin: 0,
+              alignSelf: "flex-end",
+            }}
+          >
             <Button
               variant="contained"
               onClick={() =>

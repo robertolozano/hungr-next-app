@@ -1203,11 +1203,29 @@ class SelectionPageStore {
     }
   }
 
+  // cleanup() {
+  //   this.removeSocketListeners();
+  //   if (this.socket) {
+  //     this.socket.disconnect();
+  //     this.socket = null;
+  //   }
+  // }
+
   cleanup() {
-    this.removeSocketListeners();
     if (this.socket) {
       this.socket.disconnect();
       this.socket = null;
+    }
+
+    this.sessionId = "";
+    this.status = "idle";
+    this.restaurants = [];
+    this.userList = [];
+    this.removeSocketListeners();
+
+    // Remove all listeners to prevent ghost events
+    if (this.socket) {
+      this.socket.removeAllListeners();
     }
   }
 

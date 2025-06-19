@@ -13,21 +13,21 @@ import FaceIcon from "@mui/icons-material/Face";
 import CircularProgress from "@mui/material/CircularProgress";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useRouter } from "next/navigation";
+import screenSizeStore from "../../../../stores/ScreenSizeStore";
 
 const SelectionPage = observer(() => {
   const { sessionId } = useParams();
   const [username, setUsername] = useState("");
   const [editMode, setEditMode] = useState(false);
   const router = useRouter();
+  const { isTablet, isMobile } = screenSizeStore;
 
   useEffect(() => {
     selectionPageStore.setRouter(router);
     selectionPageStore.joinSession(sessionId);
     selectionPageStore.setStatus("waiting");
 
-    return () => {
-      // selectionPageStore.cleanup();
-    };
+    return () => {};
   }, [sessionId]);
 
   const isCurrentUser = (userId) => selectionPageStore.userId === userId;
@@ -64,6 +64,7 @@ const SelectionPage = observer(() => {
           flexDirection: "column",
           alignItems: "center",
           height: "70%",
+          width: isMobile ? "100%" : 700,
         }}
       >
         <h2 style={{ display: "flex", alignSelf: "flex-start" }}>
@@ -73,7 +74,7 @@ const SelectionPage = observer(() => {
         <List dense>
           {selectionPageStore.userList.map((user) => (
             <React.Fragment key={user.id}>
-              <ListItem style={{ width: 700 }}>
+              <ListItem style={{ width: isMobile ? 400 : 700 }}>
                 <ListItemIcon>
                   <FaceIcon />
                 </ListItemIcon>
@@ -104,7 +105,7 @@ const SelectionPage = observer(() => {
                     justifyContent: isCurrentUser(user.id)
                       ? "space-between"
                       : "flex-end",
-                    width: "500px",
+                    width: isMobile ? "200px" : "500px",
                   }}
                 >
                   {isCurrentUser(user.id) && (
@@ -118,7 +119,11 @@ const SelectionPage = observer(() => {
                           setEditMode(true);
                         }
                       }}
-                      sx={{ height: 40 }}
+                      sx={{
+                        height: 40,
+                        width: isMobile ? 30 : "auto",
+                        fontSize: isMobile ? 10 : "auto",
+                      }}
                     >
                       {editMode ? "Save Name" : "Edit Name"}
                     </Button>
@@ -138,6 +143,8 @@ const SelectionPage = observer(() => {
                           height: 40,
                           marginRight: 2,
                           maxWidth: 150,
+                          width: isMobile ? 30 : "auto",
+                          fontSize: isMobile ? 10 : "auto",
                         }}
                         color={user.ready ? "error" : "primary"}
                       >

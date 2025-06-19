@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
 import selectionPageStore from "../../../../stores/SelectionPageStore";
 
 import RestaurantCard from "./card";
-import styles from "./tinderCard.module.css";
-import TinderCard from "react-tinder-card";
 
 const SelectionPage = observer(() => {
   return (
@@ -31,7 +29,7 @@ const SelectionPage = observer(() => {
           width: "100%",
         }}
       >
-        <h1>Winner</h1>
+        <h1 style={{ fontSize: "30px", marginBottom: "30px" }}>Winner!</h1>
 
         {selectionPageStore.winner ? (
           <div
@@ -43,26 +41,16 @@ const SelectionPage = observer(() => {
               alignItems: "center",
             }}
           >
-            <TinderCard
-              // ref={childRefs[index]}
-              // key={restaurant.place_id}
-              // onSwipe={(dir) => swiped(dir, restaurant.place_id)}
-              // onCardLeftScreen={() => outOfFrame(restaurant.place_id)}
-              preventSwipe={["up", "down", "left", "right"]}
-              className={styles.swipe}
+            <div
+              style={{
+                borderRadius: "20px",
+              }}
             >
-              <div
-                style={{
-                  borderRadius: "20px",
-                }}
-                className={styles.card}
-              >
-                <RestaurantCard
-                  restaurant={selectionPageStore.winner}
-                  noButtons={true}
-                />
-              </div>
-            </TinderCard>
+              <RestaurantCard
+                restaurant={selectionPageStore.winner}
+                noButtons={true}
+              />
+            </div>
           </div>
         ) : (
           "Error Should Show Winner Here"

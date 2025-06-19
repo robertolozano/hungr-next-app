@@ -6,8 +6,11 @@ import selectionPageStore from "../../../../stores/SelectionPageStore";
 import { Button, IconButton, TextField } from "@mui/material";
 import CardCarousel from "./cardCarousel";
 import SearchIcon from "@mui/icons-material/Search";
+import screenSizeStore from "../../../../stores/ScreenSizeStore";
 
 const SelectionPage = observer(() => {
+  const { isTablet, isMobile } = screenSizeStore;
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       selectionPageStore.searchRestaurants();
@@ -48,7 +51,11 @@ const SelectionPage = observer(() => {
             value={selectionPageStore.searchTerm}
             onChange={(e) => selectionPageStore.setSearchTerm(e.target.value)}
             // onKeyPress={handleKeyPress}
-            style={{ margin: "0px 5px", backgroundColor: "white" }}
+            style={{
+              margin: "0px 5px",
+              backgroundColor: "white",
+              fontSize: 10,
+            }}
           />
           <TextField
             label="Location"
@@ -94,12 +101,15 @@ const SelectionPage = observer(() => {
             style={{ margin: "0px 5px" }}
             sx={{
               height: "50px",
-              width: "150px",
+              // width: "150px",
+              width: isMobile ? "5" : "150px",
+
+              fontSize: isMobile ? "13px" : "auto",
             }}
             color="success"
             disabled={selectionPageStore?.selectedRestaurants?.length === 0}
           >
-            Begin Voting
+            Begin
           </Button>
         </div>
       </div>
@@ -121,12 +131,14 @@ const SelectionPage = observer(() => {
             flexDirection: "column",
           }}
         >
-          <h2 style={{ margin: "20px 0px 0px 0px" }}>
+          <h2
+            style={{
+              margin: "20px 0px 0px 0px",
+              fontSize: isMobile ? "18px" : "25px",
+            }}
+          >
             Top Results ({selectionPageStore?.unselectedRestaurants?.length}){" "}
-            <span style={{ color: "green" }}>
-              {" "}
-              {selectionPageStore.status.toLocaleUpperCase()}
-            </span>
+            <span style={{ color: "green" }}> </span>
           </h2>
           <CardCarousel
             restaurants={selectionPageStore.unselectedRestaurants}
@@ -140,9 +152,13 @@ const SelectionPage = observer(() => {
             flexDirection: "column",
           }}
         >
-          <h2 style={{ margin: "20px 0px 0px 0px" }}>
-            Selected ({selectionPageStore?.selectedRestaurants?.length}) -{" "}
-            {selectionPageStore.userCount} Users
+          <h2
+            style={{
+              margin: "20px 0px 0px 0px",
+              fontSize: isMobile ? "18px" : "25px",
+            }}
+          >
+            Selected ({selectionPageStore?.selectedRestaurants?.length})
           </h2>
           <CardCarousel restaurants={selectionPageStore.selectedRestaurants} />
         </div>
