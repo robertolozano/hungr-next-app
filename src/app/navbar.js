@@ -66,7 +66,7 @@ const Navbar = observer(() => {
           width: "50%",
         }}
       >
-        <Button
+        {/* <Button
           style={{
             color: "black",
             fontWeight: 600,
@@ -77,7 +77,7 @@ const Navbar = observer(() => {
           }}
         >
           Eat
-        </Button>
+        </Button> */}
         {/*<Button
           style={{
             color: "black",
