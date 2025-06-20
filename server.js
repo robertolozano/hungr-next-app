@@ -97,7 +97,7 @@ app.prepare().then(() => {
         console.log("emitting after timeout");
         broadcastUserCount(sessionId);
         broadcastUserList(sessionId);
-      }, 500); // 200–300ms is usually enough
+      }, 1000); // 200–300ms is usually enough
     });
 
     socket.on("setUsername", ({ sessionId, username }) => {

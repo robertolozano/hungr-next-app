@@ -7,8 +7,11 @@ import selectionPageStore from "../../../../stores/SelectionPageStore";
 // import styles from "./VotingPage.module.css"; // Custom CSS for styling
 import styles from "./tinderCard.module.css";
 import RestaurantCard from "./card";
+import screenSizeStore from "../../../../stores/ScreenSizeStore";
 
 const RestaurantTinderCard = () => {
+  const { isTablet, isMobile } = screenSizeStore;
+
   const [currentIndex, setCurrentIndex] = useState(
     selectionPageStore.selectedRestaurants.length - 1
   );
@@ -73,10 +76,13 @@ const RestaurantTinderCard = () => {
               // backgroundSize: "cover",
               // backgroundPosition: "center",
               borderRadius: "20px",
+              display: "flex",
+
+              width: isMobile ? "100%" : "100%",
             }}
             className={styles.card}
           >
-            <RestaurantCard restaurant={restaurant} />
+            <RestaurantCard restaurant={restaurant} noButtons={true} />
           </div>
         </TinderCard>
       ))}
@@ -84,7 +90,7 @@ const RestaurantTinderCard = () => {
       <div
         style={{
           display: "flex",
-          marginTop: 600,
+          marginTop: isMobile ? 500 : 600,
         }}
       >
         <Button

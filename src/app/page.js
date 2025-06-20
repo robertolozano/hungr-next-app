@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { observer } from "mobx-react-lite";
 
 const LandingPage = observer(() => {
-  const { isDesktop, isTablet } = screenSizeStore;
+  const { isDesktop, isTablet, isMobile } = screenSizeStore;
   const router = useRouter();
   const handleButtonClick = () => {
     router.push("/setup");
@@ -45,13 +45,31 @@ const LandingPage = observer(() => {
               width: isDesktop ? "50%" : "100%",
             }}
           >
-            <h1 id="hero_text" style={{ textAlign: "center", margin: 10 }}>
-              For those times, when <span>“whatever”</span> isn’t an option.
+            <h1
+              id="hero_text"
+              style={{
+                textAlign: "center",
+                margin: 5,
+                fontSize: isMobile ? 30 : 50,
+              }}
+            >
+              Tired of “whatever” or “you pick”?
+            </h1>
+            <h1
+              id="hero_text"
+              style={{
+                textAlign: "center",
+                margin: 5,
+                fontSize: isMobile ? 30 : 50,
+              }}
+            >
+              We’re here to help.
             </h1>
 
             <Button
               style={{
                 margin: 10,
+                fontSize: isMobile ? 15 : 30,
               }}
               fullWidth={false}
               variant="contained"

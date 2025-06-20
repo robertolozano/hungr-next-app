@@ -23,6 +23,17 @@ const SelectionPage = observer(() => {
   const { isTablet, isMobile } = screenSizeStore;
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hasRefreshed = sessionStorage.getItem("refreshed-on-waiting");
+
+      if (!hasRefreshed) {
+        sessionStorage.setItem("refreshed-on-waiting", "true");
+        console.log("refreshing page");
+        window.location.reload();
+        return;
+      }
+    }
+
     selectionPageStore.setRouter(router);
     console.log("emitting join Session before");
     selectionPageStore.joinSession(sessionId);
@@ -182,7 +193,7 @@ const SelectionPage = observer(() => {
           disabled={selectionPageStore.notReadyUsers.length > 0}
           color={"primary"}
         >
-          Begin Game
+          Begin Session
         </Button>
       </div>
     </div>

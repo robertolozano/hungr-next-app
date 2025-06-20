@@ -27,6 +27,9 @@ const SelectionPage = observer(() => {
         height: "100%",
       }}
     >
+      <p style={{ fontSize: isMobile ? 20 : 23, marginTop: 5 }}>
+        Search/Add Restaurants to vote on. Pick at least one to continue.
+      </p>
       <div
         style={{
           width: "100%",
@@ -137,7 +140,7 @@ const SelectionPage = observer(() => {
               fontSize: isMobile ? "18px" : "25px",
             }}
           >
-            Top Results ({selectionPageStore?.unselectedRestaurants?.length}){" "}
+            Search Results ({selectionPageStore?.unselectedRestaurants?.length}){" "}
             <span style={{ color: "green" }}> </span>
           </h2>
           <CardCarousel

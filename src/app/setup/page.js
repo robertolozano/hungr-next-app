@@ -33,28 +33,26 @@ const SelectionPage = observer(() => {
             style={{ margin: 10 }}
             onClick={() => setMode("create")}
           >
-            Create Game
+            Create Session
           </Button>
           <Button
             variant="contained"
             style={{ margin: 10 }}
             onClick={() => setMode("join")}
           >
-            Join Game
+            Join Session
           </Button>
         </>
       )}
       {mode == "create" && (
         <>
-          <h1 style={{ margin: 10, textAlign: "center" }}>
-            Create Custom Game ID or Use Random
-          </h1>
+          <h1 style={{ margin: 10, textAlign: "center" }}>Create Session</h1>
           <p style={{ fontSize: 20, margin: 10, textAlign: "center" }}>
-            Create a Game ID for your session so you can invite your friends to
-            this session
+            Create a Session ID. Share this with friends so they can join your
+            session!
           </p>
           <TextField
-            label="Game ID"
+            label="Session ID"
             variant="outlined"
             value={textFieldValue}
             onChange={(e) => setTextFieldValue(e.target.value)}
@@ -63,8 +61,6 @@ const SelectionPage = observer(() => {
           <Button
             variant="contained"
             onClick={() => {
-              selectionPageStore.cleanup(); // Clear old socket/listeners
-
               if (textFieldValue) {
                 selectionPageStore.setSessionId(textFieldValue);
               }
@@ -85,12 +81,12 @@ const SelectionPage = observer(() => {
       )}
       {mode === "join" && (
         <>
-          <h1 style={{ margin: 10, textAlign: "center" }}>Join Game</h1>
+          <h1 style={{ margin: 10, textAlign: "center" }}>Join Session</h1>
           <p style={{ fontSize: 20, margin: 10, textAlign: "center" }}>
-            Enter the Game ID you were given to join the session.
+            Enter the Session ID you were given to join the session.
           </p>
           <TextField
-            label="Game ID"
+            label="Session ID"
             variant="outlined"
             value={textFieldValue}
             onChange={(e) => setTextFieldValue(e.target.value)}
@@ -110,7 +106,7 @@ const SelectionPage = observer(() => {
             sx={{ height: "40px", width: "150px" }}
             disabled={!textFieldValue}
           >
-            Join Game
+            Join Session
           </Button>
         </>
       )}

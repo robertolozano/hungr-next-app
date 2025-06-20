@@ -2,11 +2,17 @@
 
 import React from "react";
 import { observer } from "mobx-react-lite";
+import screenSizeStore from "../../../../stores/ScreenSizeStore";
+import Button from "@mui/material/Button";
 import selectionPageStore from "../../../../stores/SelectionPageStore";
+import { useRouter } from "next/navigation";
 
 import RestaurantCard from "./card";
 
 const SelectionPage = observer(() => {
+  const { isDesktop, isTablet, isMobile } = screenSizeStore;
+  const router = useRouter();
+
   return (
     <div
       style={{
@@ -34,27 +40,29 @@ const SelectionPage = observer(() => {
         {selectionPageStore.winner ? (
           <div
             style={{
-              width: "100%",
-              height: "30%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              borderRadius: "20px",
             }}
           >
-            <div
-              style={{
-                borderRadius: "20px",
-              }}
-            >
-              <RestaurantCard
-                restaurant={selectionPageStore.winner}
-                noButtons={true}
-              />
-            </div>
+            <RestaurantCard
+              restaurant={selectionPageStore.winner}
+              noButtons={true}
+            />
           </div>
         ) : (
           "Error Should Show Winner Here"
         )}
+
+        <Button
+          style={{
+            margin: 10,
+            fontSize: isMobile ? 15 : 15,
+          }}
+          fullWidth={false}
+          variant="contained"
+          onClick={() => router.push(`/`)}
+        >
+          New Session
+        </Button>
       </div>
     </div>
   );

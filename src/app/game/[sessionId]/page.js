@@ -15,6 +15,7 @@ const GamePage = observer(() => {
 
   useEffect(() => {
     return () => {
+      console.log("RUNNING CLEANUP!");
       selectionPageStore.cleanup();
     };
   }, [sessionId]);

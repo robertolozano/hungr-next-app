@@ -32,7 +32,7 @@ class SelectionPageStore {
 
   constructor() {
     makeAutoObservable(this);
-
+    console.log("Store re-initialized");
     if (typeof window !== "undefined") {
       if (!this.socket) {
         this.socket = io(
@@ -157,12 +157,20 @@ class SelectionPageStore {
 
   removeSocketListeners() {
     if (this.socket) {
+      this.socket.off("connect");
+      this.socket.off("updateSelectedRestaurants");
+      this.socket.off("startSelection");
+      this.socket.off("everyoneDoneVoting");
+      this.socket.off("startVoting");
+      this.socket.off("updateUserList");
       this.socket.off("userCountUpdate");
       this.socket.off("voteUpdate");
     }
   }
 
   joinSession(sessionId) {
+    sessionStorage.removeItem("refreshed-on-waiting"); // ✅ clear refresh flag
+
     this.setSessionId(sessionId);
 
     if (this.socket) {
@@ -196,7 +204,10 @@ class SelectionPageStore {
   // }
 
   cleanup() {
+    sessionStorage.removeItem("refreshed-on-waiting");
+
     if (this.socket) {
+      this.removeSocketListeners();
       this.socket.disconnect();
       this.socket = null;
     }
@@ -205,7 +216,6 @@ class SelectionPageStore {
     this.status = "idle";
     this.restaurants = [];
     this.userList = [];
-    this.removeSocketListeners();
 
     // Remove all listeners to prevent ghost events
     if (this.socket) {
