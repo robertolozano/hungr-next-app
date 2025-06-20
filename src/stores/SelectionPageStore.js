@@ -37,7 +37,7 @@ class SelectionPageStore {
       if (!this.socket) {
         this.socket = io(
           process.env.NODE_ENV === "production"
-            ? "https://hungr-next-app.onrender.com" // Render deployment URL
+            ? "https://hungr-8c75c7ba516f.herokuapp.com" // Render deployment URL
             : "http://localhost:3000", // Local development URL
           {
             transports: ["websocket"],

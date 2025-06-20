@@ -90,8 +90,14 @@ app.prepare().then(() => {
 
       console.log(`User ${socket.id} joined session ${sessionId}`, sessions);
       socket.emit("updateSelectedRestaurants", sessions[sessionId].restaurants);
-      broadcastUserCount(sessionId);
-      broadcastUserList(sessionId);
+      // broadcastUserCount(sessionId);
+      // broadcastUserList(sessionId);
+
+      setTimeout(() => {
+        console.log("emitting after timeout");
+        broadcastUserCount(sessionId);
+        broadcastUserList(sessionId);
+      }, 500); // 200–300ms is usually enough
     });
 
     socket.on("setUsername", ({ sessionId, username }) => {

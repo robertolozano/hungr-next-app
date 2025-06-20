@@ -24,7 +24,10 @@ const SelectionPage = observer(() => {
 
   useEffect(() => {
     selectionPageStore.setRouter(router);
+    console.log("emitting join Session before");
     selectionPageStore.joinSession(sessionId);
+    console.log("emitting join Session after");
+
     selectionPageStore.setStatus("waiting");
 
     return () => {};
