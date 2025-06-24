@@ -35,7 +35,10 @@ const SelectionPage = observer(() => {
           width: "100%",
         }}
       >
-        <h1 style={{ fontSize: "30px", marginBottom: "30px" }}>Winner!</h1>
+        <h1 style={{ fontSize: "30px", marginBottom: "10px" }}>Winner!</h1>
+        <h2 style={{ fontSize: "30px", marginBottom: "20px" }}>
+          Total Votes: {selectionPageStore.winner.votes}
+        </h2>
 
         {selectionPageStore.winner ? (
           <div

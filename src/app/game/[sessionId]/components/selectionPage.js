@@ -140,7 +140,7 @@ const SelectionPage = observer(() => {
               fontSize: isMobile ? "18px" : "25px",
             }}
           >
-            Search Results ({selectionPageStore?.unselectedRestaurants?.length}){" "}
+            Search Result ({selectionPageStore?.unselectedRestaurants?.length}){" "}
             <span style={{ color: "green" }}> </span>
           </h2>
           <CardCarousel

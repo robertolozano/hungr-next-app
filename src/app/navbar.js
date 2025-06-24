@@ -57,6 +57,7 @@ const Navbar = observer(() => {
             alt="Logo"
           />
         </div>
+        {/* {isMobile ? "mobile" : "not mobile"} */}
       </div>
       <div
         style={{

@@ -496,7 +496,7 @@ class SelectionPageStore {
   }
 
   getPhotoUrl(photoReference) {
-    return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${process.env.GOOGLE_PLACES_API_KEY}`;
+    return `/api/photo?photoReference=${photoReference}`;
   }
 }
 

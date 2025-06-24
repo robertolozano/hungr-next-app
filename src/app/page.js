@@ -49,17 +49,28 @@ const LandingPage = observer(() => {
               id="hero_text"
               style={{
                 textAlign: "center",
-                margin: 5,
+                marginBottom: 20,
                 fontSize: isMobile ? 30 : 50,
               }}
             >
-              Tired of “whatever” or “you pick”?
+              Not sure where to eat?
             </h1>
             <h1
               id="hero_text"
               style={{
                 textAlign: "center",
-                margin: 5,
+                marginBottom: 20,
+                fontSize: isMobile ? 30 : 50,
+              }}
+            >
+              Tired of “whatever” or “you pick”?
+            </h1>
+
+            <h1
+              id="hero_text"
+              style={{
+                textAlign: "center",
+                marginBottom: 20,
                 fontSize: isMobile ? 30 : 50,
               }}
             >
@@ -88,9 +99,9 @@ const LandingPage = observer(() => {
             }}
           >
             <img
-              style={{ width: "60%" }}
+              style={{ width: "100%" }}
               id="hero_image"
-              src="/images/Online_shopping_PNG.png"
+              src="/images/cover_image4.png"
               alt="Hero"
             />
           </div>

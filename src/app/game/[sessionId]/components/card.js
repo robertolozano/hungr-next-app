@@ -20,6 +20,9 @@ import screenSizeStore from "../../../../stores/ScreenSizeStore";
 const RestaurantCard = observer(({ restaurant, index, noButtons }) => {
   const { isTablet, isMobile } = screenSizeStore;
 
+  console.log(
+    selectionPageStore.getPhotoUrl(restaurant.photos?.[0].photo_reference)
+  );
   return (
     <Card
       key={index}
@@ -49,12 +52,20 @@ const RestaurantCard = observer(({ restaurant, index, noButtons }) => {
         // alt="Paella dish"
         style={{
           pointerEvents: "none",
-          backgroundImage:
-            "url(" +
-            "https://www.foodiesfeed.com/wp-content/uploads/2023/06/burger-with-melted-cheese.jpg" +
-            ")",
-          backgroundSize: "cover",
-          backgroundPosition: "100%",
+          // backgroundImage:
+          //   "url(" +
+          //   "https://www.foodiesfeed.com/wp-content/uploads/2023/06/burger-with-melted-cheese.jpg" +
+          //   ")",
+          backgroundImage: restaurant.photos?.[0]?.photo_reference
+            ? "url(" +
+              selectionPageStore.getPhotoUrl(
+                restaurant.photos?.[0].photo_reference
+              ) +
+              ")"
+            : "url(" + "/images/NoRestaurantPhotoPlaceholder.png" + ")",
+          // backgroundSize: "contain",
+          backgroundSize: isMobile ? "100% 100%" : "326px 100%",
+          backgroundRepeat: isMobile ? "no-repeat" : "repeat",
         }}
       />
       <CardContent>

@@ -3,6 +3,13 @@ import "./globals.css";
 import ScreenSizer from "./screenSizer";
 import Navbar from "./navbar";
 
+import { Comfortaa } from "next/font/google";
+
+const comfortaa = Comfortaa({
+  subsets: ["latin"],
+  weight: "400",
+});
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
