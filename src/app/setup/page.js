@@ -57,10 +57,6 @@ const SelectionPage = observer(() => {
             variant="outlined"
             value={textFieldValue}
             onChange={(e) => {
-              // const value = e.target.value.replace(/\s/g, ""); // Remove all spaces
-              // setTextFieldValue(value);
-              // setTextFieldValue(e.target.value);
-
               const value = e.target.value;
               setTextFieldValue(value);
               setInputError(/\s/.test(value)); // Set error if there's any space
@@ -102,7 +98,17 @@ const SelectionPage = observer(() => {
             label="Session ID"
             variant="outlined"
             value={textFieldValue}
-            onChange={(e) => setTextFieldValue(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setTextFieldValue(value);
+              setInputError(/\s/.test(value)); // Set error if there's any space
+
+              // setTextFieldValue(e.target.value);
+            }}
+            helperText={
+              inputError ? "Spaces are not allowed in session IDs." : " "
+            }
+            error={inputError}
             style={{ margin: 10, backgroundColor: "white" }}
           />
           <Button
@@ -117,7 +123,7 @@ const SelectionPage = observer(() => {
             }}
             style={{ margin: 10 }}
             sx={{ height: "40px", width: "150px" }}
-            disabled={!textFieldValue}
+            disabled={!textFieldValue || inputError}
           >
             Join Session
           </Button>
