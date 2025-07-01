@@ -14,6 +14,7 @@ const SelectionPage = observer(() => {
 
   const [textFieldValue, setTextFieldValue] = useState("");
   const [mode, setMode] = useState("");
+  const [inputError, setInputError] = useState(false);
 
   return (
     <div
@@ -55,7 +56,19 @@ const SelectionPage = observer(() => {
             label="Session ID"
             variant="outlined"
             value={textFieldValue}
-            onChange={(e) => setTextFieldValue(e.target.value)}
+            onChange={(e) => {
+              // const value = e.target.value.replace(/\s/g, ""); // Remove all spaces
+              // setTextFieldValue(value);
+              // setTextFieldValue(e.target.value);
+
+              const value = e.target.value;
+              setTextFieldValue(value);
+              setInputError(/\s/.test(value)); // Set error if there's any space
+            }}
+            helperText={
+              inputError ? "Spaces are not allowed in session IDs." : " "
+            }
+            error={inputError}
             style={{ margin: 10, backgroundColor: "white" }}
           />
           <Button
@@ -73,7 +86,7 @@ const SelectionPage = observer(() => {
               height: "40px",
               width: "150px",
             }}
-            disabled={!textFieldValue}
+            disabled={!textFieldValue || inputError}
           >
             Setup Session
           </Button>
