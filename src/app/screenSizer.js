@@ -14,9 +14,9 @@ const ScreenSizer = observer(({ children }) => {
       };
 
       window.addEventListener("resize", updateWidth);
-      updateWidth(); // Initial check
+      updateWidth();
       window.addEventListener("resize", updateWidth);
-      updateWidth(); // Initial check
+      updateWidth();
 
       return () => {
         window.removeEventListener("resize", updateWidth);
@@ -24,7 +24,7 @@ const ScreenSizer = observer(({ children }) => {
     }
   }, [setWidth]);
 
-  return <>{children} </>;
+  return <>{children}</>;
 });
 
 export default ScreenSizer;

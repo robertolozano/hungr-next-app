@@ -14,10 +14,10 @@ const CardCarousel = observer(({ restaurants }) => {
         alignItems: "flex-start",
 
         width: "100%",
-        height: "auto",
+        height: "100%",
         overflow: "auto",
 
-        paddingBottom: "100px",
+        // paddingBottom: "100px",
       }}
     >
       {restaurants.map((restaurant, index) => (

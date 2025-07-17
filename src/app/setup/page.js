@@ -25,10 +25,19 @@ const SelectionPage = observer(() => {
         justifyContent: "center",
         width: "100%",
         height: "100%",
+        backgroundColor: "#f3f7fc",
       }}
     >
       {mode == "" && (
         <>
+          <h1 style={{ margin: 10, textAlign: "center" }}>
+            Start a New Game or Join a Friend’s
+          </h1>
+          <p style={{ fontSize: 18, marginBottom: 20, textAlign: "center" }}>
+            Create a session to get your group together, or join an existing one
+            using a code.
+          </p>
+
           <Button
             variant="contained"
             style={{ margin: 10 }}
@@ -65,7 +74,6 @@ const SelectionPage = observer(() => {
               inputError ? "Spaces are not allowed in session IDs." : " "
             }
             error={inputError}
-            style={{ margin: 10, backgroundColor: "white" }}
           />
           <Button
             variant="contained"
@@ -109,7 +117,6 @@ const SelectionPage = observer(() => {
               inputError ? "Spaces are not allowed in session IDs." : " "
             }
             error={inputError}
-            style={{ margin: 10, backgroundColor: "white" }}
           />
           <Button
             variant="contained"

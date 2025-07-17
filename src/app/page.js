@@ -5,6 +5,14 @@ import Button from "@mui/material/Button";
 import screenSizeStore from "../stores/ScreenSizeStore";
 import { useRouter } from "next/navigation";
 import { observer } from "mobx-react-lite";
+import { Teko } from "next/font/google";
+
+const teko = Teko({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-myFont",
+});
 
 const LandingPage = observer(() => {
   const { isDesktop, isTablet, isMobile } = screenSizeStore;
@@ -15,41 +23,41 @@ const LandingPage = observer(() => {
 
   return (
     <div
+      id="main"
       style={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        height: "100%",
-        backgroundColor: "#f3f7fc",
-        color: "black",
-        fontFamily: "sans-serif",
+        width: "90%",
+        maxWidth: "2000px",
+        alignSelf: "center",
+        justifySelf: "center",
       }}
     >
-      <div id="main" style={{ width: "90%", alignSelf: "center" }}>
+      <div
+        id="hero_section"
+        style={{
+          padding: "0px 0px",
+          margin: "20px 0px 20px 0px",
+          display: "flex",
+          flexDirection: isDesktop ? "row" : "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <div
-          id="hero_section"
+          id="hero_content"
           style={{
-            padding: "10px 0px",
-            margin: "20px 0px 50px 0px",
             display: "flex",
-            flexDirection: isDesktop ? "row" : "column",
+            flexDirection: "column",
             alignItems: "center",
+            width: isDesktop ? "50%" : "90%",
           }}
         >
-          <div
-            id="hero_content"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              width: isDesktop ? "50%" : "100%",
-            }}
-          >
+          <div style={{ alignSelf: "flex-start" }}>
             <h1
               id="hero_text"
               style={{
-                textAlign: "center",
-                marginBottom: 20,
+                textAlign: "left",
                 fontSize: isMobile ? 30 : 50,
               }}
             >
@@ -59,52 +67,52 @@ const LandingPage = observer(() => {
               id="hero_text"
               style={{
                 textAlign: "center",
-                marginBottom: 20,
                 fontSize: isMobile ? 30 : 50,
+                textAlign: "left",
               }}
             >
               Tired of “whatever” or “you pick”?
             </h1>
-
             <h1
               id="hero_text"
               style={{
                 textAlign: "center",
-                marginBottom: 20,
                 fontSize: isMobile ? 30 : 50,
+                textAlign: "left",
               }}
             >
               We’re here to help.
             </h1>
-
-            <Button
-              style={{
-                margin: 10,
-                fontSize: isMobile ? 15 : 30,
-              }}
-              fullWidth={false}
-              variant="contained"
-              onClick={() => handleButtonClick()}
-            >
-              Let&apos;s Eat
-            </Button>
           </div>
-          <div
-            id="hero_image"
+          <Button
             style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: "10px 0px",
-              width: isDesktop ? "50%" : isTablet ? "60%" : "80%",
+              margin: "10px 0px",
+              fontSize: isMobile ? 15 : 30,
+              alignSelf: "flex-start",
             }}
+            fullWidth={false}
+            variant="contained"
+            onClick={() => handleButtonClick()}
+            // className={teko.className}
           >
-            <img
-              style={{ width: "100%" }}
-              id="hero_image"
-              src="/images/cover_image4.png"
-              alt="Hero"
-            />
-          </div>
+            Let&apos;s Eat
+          </Button>
+        </div>
+        <div
+          id="hero_image"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            padding: "10px 0px",
+            width: isDesktop ? "50%" : isTablet ? "60%" : "90%",
+          }}
+        >
+          <img
+            style={{ width: "100%" }}
+            id="hero_image"
+            src="/images/cover_image4.png"
+            alt="Hero"
+          />
         </div>
       </div>
     </div>

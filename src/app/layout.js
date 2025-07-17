@@ -3,14 +3,22 @@ import "./globals.css";
 import ScreenSizer from "./screenSizer";
 import Navbar from "./navbar";
 
-import { Comfortaa } from "next/font/google";
+import { Teko } from "next/font/google";
+import { Kanit } from "next/font/google";
+import { Anton as MyFont2 } from "next/font/google";
+import { Staatliches as MyFont } from "next/font/google";
 
-const comfortaa = Comfortaa({
-  subsets: ["latin"],
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./theme";
+
+const teko = MyFont({
   weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-myFont",
 });
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Hungr",
@@ -19,22 +27,21 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className={teko.className}>
+      <body style={{ backgroundColor: "#f3f7fc" }}>
         <ScreenSizer>
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              backgroundColor: "#f3f7fc",
               color: "black",
-              fontFamily: "sans-serif",
               height: "100vh",
-              overflow: "hidden",
             }}
           >
-            <Navbar />
-            {children}
+            <ThemeProvider theme={theme}>
+              <Navbar />
+              <div style={{ height: "100%", width: "100%" }}>{children}</div>
+            </ThemeProvider>
           </div>
         </ScreenSizer>
       </body>

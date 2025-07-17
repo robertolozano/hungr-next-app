@@ -22,6 +22,7 @@ const SelectionPage = observer(() => {
       style={{
         display: "flex",
         flexDirection: "column",
+        justifySelf: "center",
         alignSelf: "center",
         width: "90%",
         height: "100%",
@@ -106,7 +107,6 @@ const SelectionPage = observer(() => {
               height: "50px",
               // width: "150px",
               width: isMobile ? "5" : "150px",
-
               fontSize: isMobile ? "13px" : "auto",
             }}
             color="success"
@@ -121,7 +121,6 @@ const SelectionPage = observer(() => {
         style={{
           display: "flex",
           justifyContent: "space-between",
-
           height: "100%",
           width: "100%",
         }}
